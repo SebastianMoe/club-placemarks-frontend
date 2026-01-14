@@ -1,16 +1,14 @@
 import axios from "axios";
 import { loggedInUser } from "$lib/runes.svelte";
-import type { Club } from "$lib/types/placemark-types";
+import type { Club, User } from "$lib/types/placemark-types";
 
 const baseUrl = "http://localhost:3000";
 
 export const placemarkService = {
-  // Registrierung
   async signup(firstName: string, lastName: string, email: string, password: string) {
     console.log("Signing up user:", email);
     try {
       const user = { firstName, lastName, email, password };
-      // POST an /api/users
       const response = await axios.post(`${baseUrl}/api/users`, user);
       console.log("Signup response:", response.data);
       return response.status === 201; 
@@ -20,10 +18,8 @@ export const placemarkService = {
     }
   },
 
-  // Login
   async login(email: string, password: string) {
     try {
-      // POST an /api/users/authenticate
       const response = await axios.post(`${baseUrl}/api/users/authenticate`, { email, password });
       if (response.data.success) {
         loggedInUser.email = email;
@@ -47,9 +43,18 @@ export const placemarkService = {
     }
   },
 
+  async getClub(id: string): Promise<Club | null> {
+    try {
+      const response = await axios.get(`${baseUrl}/api/clubs/${id}`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  },
+
   async createClub(club: Club) {
     try {
-      // Backend erwartet die userId im Body
       const newClub = {
         ...club,
         userId: loggedInUser.userId
@@ -60,5 +65,57 @@ export const placemarkService = {
       console.log(error);
       return false;
     }
+  },
+
+  async createClubWithImage(name: string, description: string, category: string, lat: number, lng: number, file: File | null) {
+    try {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("category", category);
+      formData.append("latitude", lat.toString());
+      formData.append("longitude", lng.toString());
+      formData.append("userId", loggedInUser.userId); // Wichtig!
+      
+      if (file) {
+        formData.append("image", file); // Der Key "image" muss mit dem Backend übereinstimmen
+      }
+
+      const response = await axios.post(`${baseUrl}/api/clubs`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.status === 201;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  },
+
+  async deleteClub(id: string) {
+    try {
+      const response = await axios.delete(`${baseUrl}/api/clubs/${id}`);
+      return response.status === 204;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  },
+
+  async getUsers(): Promise<User[]> {
+    try {
+      const response = await axios.get(`${baseUrl}/api/users`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
+  },
+
+  async logout() {
+    loggedInUser.email = "";
+    loggedInUser.userId = "";
+    return true;
   }
 };

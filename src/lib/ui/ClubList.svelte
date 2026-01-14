@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Club } from "$lib/types/placemark-types";
-  let { clubs = [] } = $props();
+  
+  let { clubs = [], deleteClub = (id: string) => {} } = $props();
 </script>
 
 <table class="table is-fullwidth">
@@ -9,14 +10,26 @@
       <th>Name</th>
       <th>Description</th>
       <th>Category</th>
-    </tr>
+      <th>Action</th> </tr>
   </thead>
   <tbody>
     {#each clubs as club}
       <tr>
-        <td>{club.name}</td>
+        <td>
+          <a href="/club/{club._id}" class="has-text-weight-bold">
+            {club.name}
+          </a>
+        </td>
         <td>{club.description}</td>
         <td>{club.category}</td>
+        <td>
+          <a href="/club/{club._id}" class="button is-info is-small">
+            <span class="icon is-small"><i class="fas fa-folder-open"></i></span>
+          </a>
+          <button class="button is-danger is-small" onclick={() => deleteClub(club._id!)}>
+            <span class="icon is-small"><i class="fas fa-trash"></i></span>
+          </button>
+        </td>
       </tr>
     {/each}
   </tbody>

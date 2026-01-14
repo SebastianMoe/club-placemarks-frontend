@@ -9,6 +9,13 @@
     onMount(async () => {
         clubs = await placemarkService.getClubs();
     });
+
+    async function deleteClub(id: string) {
+        const success = await placemarkService.deleteClub(id);
+        if (success) {
+            clubs = clubs.filter(club => club._id !== id);
+        }
+    }
 </script>
 
-<ClubList {clubs} />
+<ClubList {clubs} {deleteClub} />

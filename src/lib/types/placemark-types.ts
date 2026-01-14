@@ -13,4 +13,5 @@ export interface Club {
   latitude: number;
   longitude: number;
   userId?: string;
+  imageUrls?: string[];
 }
