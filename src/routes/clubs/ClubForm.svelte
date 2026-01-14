@@ -1,40 +1,60 @@
 <script lang="ts">
     import Coordinates from "$lib/ui/Coordinates.svelte";
+    import { placemarkService } from "$lib/services/placemark-service";
+    import type { Club } from "$lib/types/placemark-types";
+    import { goto } from "$app/navigation"; // Optional: Zum Navigieren nach dem Erstellen
 
-    let lat = $state(52.160858);
-    let lng = $state(-7.15242);
-    let clubName = $state("");
+    let name = $state("");
     let description = $state("");
-    let categories = ["Sport", "Nature", "Music", "Tech"];
-    let selectedCategory = $state("Sport");
+    let category = $state("other");
+    let lat = $state(0.0);
+    let lng = $state(0.0);
 
-    async function addClub() {
-        console.log(`New club: ${clubName} (${selectedCategory}) - ${description}`);
-        console.log(`lat: ${lat}, lng: ${lng}`);
+    let categories = ["education", "sports", "music", "rescue", "other"];
+
+    async function createClub() {
+        const newClub: Club = {
+            name: name,
+            description: description,
+            category: category,
+            latitude: lat,
+            longitude: lng
+        };
+        
+        const success = await placemarkService.createClub(newClub);
+        if (success) {
+            console.log("Club created successfully");
+            // Optional: Zur Liste navigieren
+            goto("/allclubs"); 
+        } else {
+            console.log("Error creating club");
+        }
     }
 </script>
 
-<div>
+<form onsubmit={(e) => { e.preventDefault(); createClub(); }}>
   <div class="field">
-    <label class="label" for="clubName">Club Name:</label>
-    <input bind:value={clubName} class="input" id="clubName" name="clubName" type="text" placeholder="Enter club name" />
+    <label class="label" for="name">Name</label>
+    <input bind:value={name} class="input" id="name" type="text" required />
   </div>
   <div class="field">
-    <label class="label" for="category">Select Category:</label>
-    <div class="control">
-      {#each categories as category}
-        <input bind:group={selectedCategory} class="radio" type="radio" value={category} /> {category}
-      {/each}
+    <label class="label" for="description">Description</label>
+    <input bind:value={description} class="input" id="description" type="text" />
+  </div>
+  <div class="field">
+    <label class="label" for="category">Category</label>
+    <div class="select">
+      <select bind:value={category} id="category">
+        {#each categories as c}
+          <option value={c}>{c}</option>
+        {/each}
+      </select>
     </div>
   </div>
-  <div class="field">
-    <label class="label" for="description">Description:</label>
-    <input bind:value={description} class="input" id="description" name="description" type="text" placeholder="Enter description" />
-  </div>
+  
   <Coordinates bind:lat bind:lng />
+
   <div class="field">
-    <div class="control">
-      <button onclick={addClub} class="button is-link is-fullwidth">Add Club</button>
-    </div>
+    <button class="button is-primary">Create Club</button>
   </div>
-</div>
+</form>

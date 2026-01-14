@@ -1,6 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import { loggedInUser } from "$lib/runes.svelte";
+  import { placemarkService } from "$lib/services/placemark-service"; // Service importieren
   import Message from "$lib/ui/Message.svelte";
   import UserCredentials from "$lib/ui/UserCredentials.svelte";
 
@@ -9,10 +9,11 @@
   let message = $state("");
 
   async function login() {
-    const success = true;
+    // Echter API Aufruf
+    const success = await placemarkService.login(email, password);
+    
     if (success) {
-      loggedInUser.email = email;
-      goto("/clubs");
+      goto("/clubs"); // Weiterleitung zum Dashboard
     } else {
       email = "";
       password = "";
@@ -25,6 +26,8 @@
   {#if message}
     <Message {message} />
   {/if}
-  <UserCredentials bind:email bind:password />
-  <button onclick={() => login()} class="button">Log In</button>
+  <form onsubmit={(e) => { e.preventDefault(); login(); }}>
+    <UserCredentials bind:email bind:password />
+    <button class="button is-primary mt-4">Log In</button>
+  </form>
 </div>
