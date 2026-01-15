@@ -8,21 +8,19 @@
     let category = $state("other");
     let lat = $state(0.0);
     let lng = $state(0.0);
-    let fileName = $state(""); // Für die Anzeige
-    let files: FileList | null = $state(null); // Das eigentliche File-Objekt
+    let fileName = $state("");
+    let files: FileList | null = $state(null); 
 
     let categories = ["education", "sports", "music", "rescue", "other"];
 
     async function createClub() {
-        // Nutze createClubWithImage statt createClub
-        // Wir übergeben die Rohdaten, der Service baut das FormData Objekt
         const success = await placemarkService.createClubWithImage(
             name, 
             description, 
             category, 
             lat, 
             lng, 
-            files ? files[0] : null // Das erste Bild übergeben
+            files ? files[0] : null 
         );
         
         if (success) {
@@ -33,7 +31,6 @@
         }
     }
 
-    // Hilfsfunktion um Dateinamen anzuzeigen (optional aber hübsch)
     function handleFileChange(event: Event) {
         const input = event.target as HTMLInputElement;
         if (input.files && input.files.length > 0) {

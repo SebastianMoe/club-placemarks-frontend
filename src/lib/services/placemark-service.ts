@@ -23,7 +23,7 @@ export const placemarkService = {
       const response = await axios.post(`${baseUrl}/api/users/authenticate`, { email, password });
       if (response.data.success) {
         loggedInUser.email = email;
-        loggedInUser.userId = response.data.userId; // User ID speichern
+        loggedInUser.userId = response.data.userId; 
         return true;
       }
       return false;
@@ -75,10 +75,10 @@ export const placemarkService = {
       formData.append("category", category);
       formData.append("latitude", lat.toString());
       formData.append("longitude", lng.toString());
-      formData.append("userId", loggedInUser.userId); // Wichtig!
+      formData.append("userId", loggedInUser.userId); 
       
       if (file) {
-        formData.append("image", file); // Der Key "image" muss mit dem Backend übereinstimmen
+        formData.append("image", file); 
       }
 
       const response = await axios.post(`${baseUrl}/api/clubs`, formData, {

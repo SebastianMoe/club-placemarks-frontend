@@ -1,6 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import { placemarkService } from "$lib/services/placemark-service"; // Service importieren
+  import { placemarkService } from "$lib/services/placemark-service"; 
   import Message from "$lib/ui/Message.svelte";
   import UserCredentials from "$lib/ui/UserCredentials.svelte";
 
@@ -9,11 +9,10 @@
   let message = $state("");
 
   async function login() {
-    // Echter API Aufruf
     const success = await placemarkService.login(email, password);
     
     if (success) {
-      goto("/clubs"); // Weiterleitung zum Dashboard
+      goto("/clubs"); 
     } else {
       email = "";
       password = "";

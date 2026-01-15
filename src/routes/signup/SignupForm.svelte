@@ -3,7 +3,6 @@
   import UserCredentials from "$lib/ui/UserCredentials.svelte";
   import UserDetails from "$lib/ui/UserDetails.svelte";
   import Message from "$lib/ui/Message.svelte";
-  // Importiere den Service
   import { placemarkService } from "$lib/services/placemark-service";
 
   let firstName = $state("");
@@ -13,11 +12,10 @@
   let message = $state("");
 
   async function signup() {
-    // Echter Aufruf an die API
     const success = await placemarkService.signup(firstName, lastName, email, password);
     
     if (success) {
-      goto("/login"); // Nach Registrierung zum Login
+      goto("/login"); 
     } else {
       message = "Error Trying to sign up";
     }
