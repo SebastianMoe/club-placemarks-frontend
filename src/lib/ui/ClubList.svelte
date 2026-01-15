@@ -1,51 +1,34 @@
 <script lang="ts">
-  export let clubs = [
-    {
-      name: "Tramore Surf Club",
-      category: "Sport",
-      description: "Surfing in Tramore",
-      lat: "52.161290",
-      lng: "-7.51540"
-    },
-    {
-      name: "Waterford Nature Group",
-      category: "Nature",
-      description: "Exploring nature in Waterford",
-      lat: "52.261290",
-      lng: "-7.231540"
-    },
-    {
-      name: "Dungarvan Tech Meetup",
-      category: "Tech",
-      description: "Tech talks and networking",
-      lat: "52.361290",
-      lng: "-7.241540"
-    }
-  ];
+  import type { Club } from "$lib/types/placemark-types";
+  
+  let { clubs = [], deleteClub = (id: string) => {} } = $props();
 </script>
 
 <table class="table is-fullwidth">
   <thead>
     <tr>
-      <th>Club Name</th>
-      <th>Category</th>
+      <th>Name</th>
       <th>Description</th>
-      <th>Location</th>
-    </tr>
+      <th>Category</th>
+      <th>Action</th> </tr>
   </thead>
   <tbody>
     {#each clubs as club}
       <tr>
         <td>
-          {club.name}
+          <a href="/club/{club._id}" class="has-text-weight-bold">
+            {club.name}
+          </a>
         </td>
+        <td>{club.description}</td>
+        <td>{club.category}</td>
         <td>
-          {club.category}
-        </td><td>
-          {club.description}
-        </td>
-        <td>
-            {club.lat}, {club.lng}
+          <a href="/club/{club._id}" class="button is-info is-small">
+            <span class="icon is-small"><i class="fas fa-folder-open"></i></span>
+          </a>
+          <button class="button is-danger is-small" onclick={() => deleteClub(club._id!)}>
+            <span class="icon is-small"><i class="fas fa-trash"></i></span>
+          </button>
         </td>
       </tr>
     {/each}

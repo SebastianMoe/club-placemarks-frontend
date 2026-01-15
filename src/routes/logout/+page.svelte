@@ -1,7 +1,10 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import { goto } from "$app/navigation";
-  import { loggedInUser } from "$lib/runes.svelte";
+  import { placemarkService } from "$lib/services/placemark-service";
 
-  loggedInUser.email = "";
-  goto("/");
+  onMount(async () => {
+    await placemarkService.logout();
+    goto("/");
+  });
 </script>
