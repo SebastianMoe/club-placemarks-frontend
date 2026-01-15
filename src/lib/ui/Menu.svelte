@@ -5,7 +5,7 @@
 <nav class="navbar is-full-width">
   <div class="container">
     <div class="navbar-brand">
-      <a class="navbar-item" href="/clubs">
+      <a class="navbar-item" href="/dashboard">
         <span class="icon"> <i class="fas fa-map-marker-alt"></i></span><span class="icon mr-1">
           <i class="far fa-flag"></i></span
         ><span><strong>Club Placemarks</strong> </span>
