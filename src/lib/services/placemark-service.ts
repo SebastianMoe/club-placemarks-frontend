@@ -1,6 +1,6 @@
 import axios from "axios";
 import { loggedInUser } from "$lib/runes.svelte";
-import type { Club, User } from "$lib/types/placemark-types";
+import type { Club, User, MemberStats } from "$lib/types/placemark-types";
 
 const baseUrl = "http://localhost:3000";
 
@@ -117,5 +117,25 @@ export const placemarkService = {
     loggedInUser.email = "";
     loggedInUser.userId = "";
     return true;
+  },
+
+  async getMemberStats(clubId: string): Promise<MemberStats[]> {
+    try {
+      const response = await axios.get(`${baseUrl}/api/clubs/${clubId}/stats`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
+  },
+
+  async addMemberStats(clubId: string, stats: MemberStats): Promise<boolean> {
+    try {
+      const response = await axios.post(`${baseUrl}/api/clubs/${clubId}/stats`, stats);
+      return response.status === 201;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   }
 };

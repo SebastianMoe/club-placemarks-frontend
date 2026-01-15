@@ -15,3 +15,14 @@ export interface Club {
   userId?: string;
   imageUrls?: string[];
 }
+
+export interface MemberStats {
+  _id?: string;
+  clubId?: string;
+  total: number;
+  adultMale: number;
+  adultFemale: number;
+  youthMale: number;
+  youthFemale: number;
+  date: string;
+}
