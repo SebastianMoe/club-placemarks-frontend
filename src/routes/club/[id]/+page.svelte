@@ -30,6 +30,14 @@
             <div class="box">
                 <h1 class="title is-2">{club.name}</h1>
                 
+                {#if club.imageUrls && club.imageUrls.length > 0}
+                    <div class="card-image mb-4">
+                        <figure class="image is-fullwidth">
+                            <img src={club.imageUrls[0]} alt={club.name}>
+                        </figure>
+                    </div>
+                {/if}
+
                 <div class="box">
                     <h3 class="title is-5">Location</h3>
                     <Coordinates bind:lat={club.latitude} bind:lng={club.longitude} />
