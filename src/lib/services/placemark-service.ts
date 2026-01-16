@@ -113,6 +113,16 @@ export const placemarkService = {
     }
   },
 
+  async deleteUser(id: string) {
+    try {
+      const response = await axios.delete(`${baseUrl}/api/users/${id}`);
+      return response.status === 204;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  },
+
   async logout() {
     loggedInUser.email = "";
     loggedInUser.userId = "";

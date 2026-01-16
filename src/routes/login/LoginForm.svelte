@@ -12,7 +12,7 @@
     const success = await placemarkService.login(email, password);
     
     if (success) {
-      goto("/clubs"); 
+      goto("/dashboard"); 
     } else {
       email = "";
       password = "";
