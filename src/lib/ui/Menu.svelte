@@ -15,7 +15,9 @@
       <div class="navbar-end">
         <a class="navbar-item" href="/clubs"> Add Club </a>
         <a class="navbar-item" href="/allclubs"> All Clubs </a>
-        <a class="navbar-item" href="/admin"> Admin </a>
+        {#if loggedInUser.role === "admin"}
+            <a class="navbar-item" href="/admin"> Admin </a>
+        {/if}
         <a class="navbar-item" href="/logout"> Logout [{loggedInUser.email}]</a>
       </div>
       <div></div>

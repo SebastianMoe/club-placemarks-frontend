@@ -1,2 +1,2 @@
 export const subTitle = $state({ text: "" });
-export const loggedInUser = $state({ email: "", userId: "" });
+export const loggedInUser = $state({ email: "", userId: "", role: "" });
