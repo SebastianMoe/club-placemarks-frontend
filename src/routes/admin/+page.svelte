@@ -12,4 +12,4 @@
 </script>
 
 <h1 class="title is-4">Admin Dashboard - Alle Benutzer</h1>
-<UserList {users} />
+<UserList bind:users={users} />
