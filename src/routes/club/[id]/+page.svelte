@@ -31,7 +31,7 @@
                 <h1 class="title is-2">{club.name}</h1>
                 
                 <div class="box">
-                    <h3 class="title is-5">Standort</h3>
+                    <h3 class="title is-5">Location</h3>
                     <Coordinates bind:lat={club.latitude} bind:lng={club.longitude} />
                 </div>
             </div>

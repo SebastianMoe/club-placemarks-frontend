@@ -23,7 +23,8 @@ export const placemarkService = {
       const response = await axios.post(`${baseUrl}/api/users/authenticate`, { email, password });
       if (response.data.success) {
         loggedInUser.email = email;
-        loggedInUser.userId = response.data.userId; 
+        loggedInUser.userId = response.data.userId;
+        loggedInUser.role = Array.isArray(response.data.role) ? response.data.role[0] : response.data.role;
         return true;
       }
       return false;
