@@ -68,7 +68,7 @@ export const placemarkService = {
     }
   },
 
-  async createClubWithImage(name: string, description: string, category: string, lat: number, lng: number, file: File | null) {
+  async createClubWithImage(name: string, description: string, category: string, lat: number, lng: number, files: FileList | null) {
     try {
       const formData = new FormData();
       formData.append("name", name);
@@ -78,8 +78,10 @@ export const placemarkService = {
       formData.append("longitude", lng.toString());
       formData.append("userId", loggedInUser.userId); 
       
-      if (file) {
-        formData.append("image", file); 
+      if (files && files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+            formData.append("image", files[i]);
+        }
       }
 
       const response = await axios.post(`${baseUrl}/api/clubs`, formData, {
@@ -144,6 +146,43 @@ export const placemarkService = {
     try {
       const response = await axios.post(`${baseUrl}/api/clubs/${clubId}/stats`, stats);
       return response.status === 201;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  },
+
+  async updateClub(id: string, name: string, description: string, category: string, lat: number, lng: number, files: FileList | null) {
+    try {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("category", category);
+      formData.append("latitude", lat.toString());
+      formData.append("longitude", lng.toString());
+      
+      if (files) {
+        for (let i = 0; i < files.length; i++) {
+          formData.append("image", files[i]);
+        }
+      }
+
+      const response = await axios.put(`${baseUrl}/api/clubs/${id}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      return response.status === 200;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  },
+
+  async deleteClubImage(clubId: string, imageUrl: string) {
+    try {
+      const response = await axios.delete(`${baseUrl}/api/clubs/${clubId}/image`, {
+        data: { url: imageUrl }
+      });
+      return response.status === 204;
     } catch (error) {
       console.log(error);
       return false;
