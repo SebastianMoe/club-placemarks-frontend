@@ -25,6 +25,15 @@
         }
     }
 
+    async function deleteEvent(eventId: string) {
+        if (confirm("Really delete this event?")) {
+            const success = await placemarkService.deleteEvent(eventId);
+            if (success) {
+                await refresh();
+            }
+        }
+    }
+
     onMount(async () => {
         await refresh();
     });
@@ -87,6 +96,13 @@
                                     <span class="icon"><i class="fas fa-calendar"></i></span> 
                                     {event.date}
                                 </p>
+                            </div>
+                            <div class="media-right">
+                                <button class="button is-danger is-small" onclick={() => deleteEvent(event._id!)}>
+                                    <span class="icon is-small">
+                                        <i class="fas fa-trash"></i>
+                                    </span>
+                                </button>
                             </div>
                         </div>
 
