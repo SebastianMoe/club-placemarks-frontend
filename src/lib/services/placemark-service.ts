@@ -1,6 +1,6 @@
 import axios from "axios";
 import { loggedInUser } from "$lib/runes.svelte";
-import type { Club, User, MemberStats } from "$lib/types/placemark-types";
+import type { Club, User, MemberStats, Event } from "$lib/types/placemark-types";
 
 const baseUrl = "http://localhost:3000";
 
@@ -182,6 +182,36 @@ export const placemarkService = {
       const response = await axios.delete(`${baseUrl}/api/clubs/${clubId}/image`, {
         data: { url: imageUrl }
       });
+      return response.status === 204;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  },
+
+  async getEvents(clubId: string): Promise<Event[]> {
+    try {
+      const response = await axios.get(`${baseUrl}/api/clubs/${clubId}/events`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
+  },
+
+  async createEvent(event: Event): Promise<boolean> {
+    try {
+      const response = await axios.post(`${baseUrl}/api/events`, event);
+      return response.status === 201;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  },
+
+  async deleteEvent(id: string): Promise<boolean> {
+    try {
+      const response = await axios.delete(`${baseUrl}/api/events/${id}`);
       return response.status === 204;
     } catch (error) {
       console.log(error);

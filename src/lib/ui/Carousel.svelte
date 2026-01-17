@@ -4,12 +4,10 @@
   let currentIndex = $state(0);
 
   function next() {
-    // Modulo-Operator sorgt dafür, dass es nach dem letzten Bild wieder bei 0 anfängt
     currentIndex = (currentIndex + 1) % imageUrls.length;
   }
 
   function prev() {
-    // Wenn wir bei 0 sind und zurück gehen, springen wir zum letzten Bild
     currentIndex = (currentIndex - 1 + imageUrls.length) % imageUrls.length;
   }
 </script>
