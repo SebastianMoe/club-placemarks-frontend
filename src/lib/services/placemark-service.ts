@@ -217,5 +217,15 @@ export const placemarkService = {
       console.log(error);
       return false;
     }
+  },
+
+  async deleteMemberStats(clubId: string, statId: string): Promise<boolean> {
+    try {
+      const response = await axios.delete(`${baseUrl}/api/clubs/${clubId}/stats/${statId}`);
+      return response.status === 204;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   }
 };

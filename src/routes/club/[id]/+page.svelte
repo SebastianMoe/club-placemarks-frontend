@@ -16,6 +16,7 @@
     
     const id = $page.params.id;
     let eventMaps: any[] = $state([]);
+    let clubMap: any = $state();
 
     async function refresh() {
         if (id) {
@@ -34,11 +35,26 @@
         }
     }
 
+    async function deleteStat(statId: string) {
+        if (id && confirm("Delete this statistic entry?")) {
+            const success = await placemarkService.deleteMemberStats(id, statId);
+            if (success) {
+                await refresh();
+            }
+        }
+    }
+
     onMount(async () => {
         await refresh();
     });
     
     $effect(() => {
+        if (clubMap && club) {
+            setTimeout(() => {
+                if(club != null)
+                    clubMap.addMarker(club.latitude, club.longitude, `<b>${club.name}</b>`, club.category);
+            }, 500);
+        }
         eventMaps.forEach((map, index) => {
             if (map && events[index]) {
                 setTimeout(() => {
@@ -65,25 +81,74 @@
                 </div>
 
                 <div class="box">
-                    <h3 class="title is-5">Location</h3>
-                    <Coordinates bind:lat={club.latitude} bind:lng={club.longitude} />
+                    <h3 class="title is-5">Description</h3>
+                    <p>{club.description}</p>
                 </div>
-            </div>
-            
-            <ClubStats {stats} />
-        </div>
 
-        <div class="column is-5">
-            <StatsForm clubId={club._id} onStatsAdded={refresh} />
-            
-            <div class="mt-5">
+                <div class="box">
+                    <h3 class="title is-5">Location</h3>
+                    <LeafletMap 
+                        bind:this={clubMap} 
+                        id="club-map" 
+                        height={40} 
+                        location={{ lat: club.latitude, lng: club.longitude }} 
+                        zoom={12} 
+                    />
+                </div>
+
                 <div class="buttons">
-                    <a href="/club/{club._id}/edit" class="button is-fullwidth">
+                    <a href="/club/{club._id}/edit" class="button is-warning is-fullwidth">
                          <span class="icon"><i class="fas fa-edit"></i></span>
                          <span>Edit Club</span>
                     </a>
                 </div>
+            </div>
+            
+            <StatsForm clubId={club._id} onStatsAdded={refresh} />
+
+            <ClubStats {stats} />
+
+            {#if stats.length > 0}
+                <div class="box">
+                    <h3 class="title is-5">Statistics History</h3>
+                    <table class="table is-fullwidth">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Total Members</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {#each stats as stat}
+                                <tr>
+                                    <td>{new Date(stat.date).toLocaleDateString()}</td>
+                                    <td>{stat.total}</td>
+                                    <td class="has-text-right">
+                                        <button class="button is-danger is-small" onclick={() => deleteStat(stat._id!)}>
+                                            <span class="icon is-small"><i class="fas fa-trash"></i></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            {/each}
+                        </tbody>
+                    </table>
+                </div>
+            {/if}
+        </div>
+
+        <div class="column is-5">
+            <div class="mb-5">
                 <a href="/allclubs" class="button is-fullwidth">Back to list</a>
+            </div>
+
+            <div class="card mt-5">
+                <div class="box">
+                    <h3 class="title is-5">Create New Event</h3>
+                    
+                    <EventForm clubId={club._id!} onEventCreated={refresh} />
+                
+                </div>
             </div>
 
             {#each events as event, i}
@@ -124,15 +189,6 @@
                     </div>
                 </div>
             {/each}
-
-            <div class="mt-5">
-                <div class="box">
-                    <h3 class="title is-5">Create New Event</h3>
-                    
-                    <EventForm clubId={club._id!} onEventCreated={refresh} />
-                
-                </div>
-            </div>
 
         </div>
     </div>
