@@ -26,8 +26,4 @@
     <h2 class="title is-4">Membership development</h2>
     <Chart data={chartData} type="line" height={300} colors={['#3e8ed0']} />
   </div>
-{:else}
-  <div class="notification is-light">
-    No statistical data available yet.
-  </div>
 {/if}

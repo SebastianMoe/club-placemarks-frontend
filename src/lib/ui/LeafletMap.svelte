@@ -3,10 +3,12 @@
   import { onMount } from "svelte";
   import type { Control, Map as LeafletMap, LayerGroup } from "leaflet";
 
-  let { height = 80 } = $props();
-  let id = "home-map-id";
-  let location = { lat: 49.0134, lng: 12.1016 }; 
-  let zoom = 12;
+  let { 
+    id = "map-id", 
+    height = 80, 
+    location = { lat: 49.0134, lng: 12.1016 }, 
+    zoom = 12 
+  } = $props();
   let minZoom = 7;
   let activeLayer = "Terrain";
 
