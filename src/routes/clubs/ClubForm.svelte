@@ -20,7 +20,7 @@
             category, 
             lat, 
             lng, 
-            files ? files[0] : null 
+            files
         );
         
         if (success) {
@@ -32,11 +32,15 @@
     }
 
     function handleFileChange(event: Event) {
-        const input = event.target as HTMLInputElement;
-        if (input.files && input.files.length > 0) {
-            fileName = input.files[0].name;
-            files = input.files;
-        }
+      const input = event.target as HTMLInputElement;
+      if (input.files && input.files.length > 0) {
+          files = input.files;
+          if (input.files.length > 1) {
+              fileName = `${input.files.length} Dateien ausgewählt`;
+          } else {
+              fileName = input.files[0].name;
+          }
+      }
     }
 </script>
 
@@ -73,6 +77,7 @@
             type="file" 
             accept="image/png, image/jpeg" 
             name="resume" 
+            multiple
             onchange={handleFileChange}
         />
         <span class="file-cta">
