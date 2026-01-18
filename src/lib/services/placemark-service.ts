@@ -22,6 +22,13 @@ export const placemarkService = {
     try {
       const response = await axios.post(`${baseUrl}/api/users/authenticate`, { email, password });
       if (response.data.success) {
+        const token = response.data.token;
+        axios.defaults.headers.common["Authorization"] = token;
+
+        if (typeof localStorage !== "undefined") {
+            localStorage.setItem("token", token);
+        }
+      
         loggedInUser.email = email;
         loggedInUser.userId = response.data.userId;
         loggedInUser.role = Array.isArray(response.data.role) ? response.data.role[0] : response.data.role;
@@ -129,6 +136,12 @@ export const placemarkService = {
   async logout() {
     loggedInUser.email = "";
     loggedInUser.userId = "";
+
+    axios.defaults.headers.common["Authorization"] = "";
+    if (typeof localStorage !== "undefined") {
+        localStorage.removeItem("token");
+    }
+
     return true;
   },
 
@@ -227,5 +240,17 @@ export const placemarkService = {
       console.log(error);
       return false;
     }
+  },
+
+  async reload() {
+     if (typeof localStorage !== "undefined") {
+         const token = localStorage.getItem("token");
+         if (token) {
+             axios.defaults.headers.common["Authorization"] = token;
+             return true;
+         }
+     }
+     return false;
   }
+
 };
