@@ -61,29 +61,29 @@
     <h1 class="title">Edit Club: {club.name}</h1>
 
     <form onsubmit={(e) => { e.preventDefault(); updateClub(); }}>
-      <div class="field">
-        <label class="label">Name</label>
-        <input bind:value={club.name} class="input" type="text" required />
-      </div>
-      <div class="field">
-        <label class="label">Description</label>
-        <input bind:value={club.description} class="input" type="text" />
-      </div>
-      <div class="field">
-        <label class="label">Category</label>
-        <div class="select">
-          <select bind:value={club.category}>
-            {#each categories as c}
-              <option value={c}>{c}</option>
-            {/each}
-          </select>
+        <div class="field">
+            <label class="label" for="club-name">Name</label>
+            <input id="club-name" bind:value={club.name} class="input" type="text" required />
+        </div>
+        <div class="field">
+            <label class="label" for="club-desc">Description</label>
+            <input id="club-desc" bind:value={club.description} class="input" type="text" />
+        </div>
+        <div class="field">
+            <label class="label" for="club-cat">Category</label>
+            <div class="select">
+            <select id="club-cat" bind:value={club.category}>
+                {#each categories as c}
+                <option value={c}>{c}</option>
+                {/each}
+            </select>
         </div>
       </div>
 
       <Coordinates bind:lat={club.latitude} bind:lng={club.longitude} />
 
       <div class="box">
-        <label class="label">Manage Images</label>
+        <h3 class="label">Manage Images</h3>
         
         <div class="columns is-multiline">
             {#each (club.imageUrls ?? []) as img}
@@ -100,7 +100,7 @@
         </div>
 
         <div class="field mt-4">
-            <label class="label">Add New Images</label>
+            <h3 class="label">Add New Images</h3>
             <div class="file has-name is-fullwidth">
             <label class="file-label">
                 <input class="file-input" type="file" multiple accept="image/*" onchange={handleFileChange} />
@@ -116,7 +116,7 @@
 
       <div class="field is-grouped">
         <div class="control">
-          <button class="button is-link">Save Changes</button>
+        <button class="button is-link">Save Changes</button>
         </div>
         <div class="control">
             <button type="button" class="button is-danger" onclick={deleteClub}>Delete Club</button>
