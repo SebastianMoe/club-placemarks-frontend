@@ -1,20 +1,14 @@
 <script lang="ts">
-  import SignupForm from "./SignupForm.svelte";
+  import SignupForm from "../../lib/ui/SignupForm.svelte";
 </script>
 
-<section class="hero is-fullheight is-default is-bold">
-  <div class="hero-head"></div>
+<section class="hero is-fullheight">
   <div class="hero-body">
     <div class="container">
-      <div class="columns is-vcentered">
+      <div class="columns is-centered">
         <div class="column is-5">
-          <h1 class="title has-text-centered">Signup to Club Placemarks</h1>
-          <SignupForm />
-        </div>
-        <div class="column is-6 is-offset-1">
-          <figure class="image is-4by3">
-            <img class="object-fit" src="/homer3.png" alt="homer" />
-          </figure>
+            <h1 class="title has-text-centered">Signup to Club Placemarks</h1>
+            <SignupForm />
         </div>
       </div>
     </div>

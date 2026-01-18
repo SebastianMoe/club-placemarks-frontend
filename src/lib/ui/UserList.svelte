@@ -30,7 +30,7 @@
         <td>{user.email}</td>
         <td class="is-size-7 has-text-grey">{user._id}</td>
         <td>
-          <button class="button is-danger is-small" onclick={() => deleteUser(user._id)}>
+          <button class="button is-danger is-small" onclick={() => deleteUser(user._id)} title="Delete">
             <span class="icon is-small">
               <i class="fas fa-trash"></i>
             </span>

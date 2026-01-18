@@ -38,26 +38,26 @@
 
 <form onsubmit={(e) => { e.preventDefault(); createEvent(); }}>
   <div class="field">
-    <label class="label">Event Title</label>
-    <input bind:value={title} class="input" type="text" placeholder="e.g. Summer Festival" required />
+    <label class="label" for="event-title">Event Title</label>
+    <input id="event-title" bind:value={title} class="input" type="text" placeholder="e.g. Summer Festival" required />
   </div>
 
   <div class="field">
-    <label class="label">Description</label>
-    <textarea bind:value={description} class="textarea" placeholder="What's happening?"></textarea>
+    <label class="label" for="event-description">Description</label>
+    <textarea id="event-description" bind:value={description} class="textarea" placeholder="What's happening?"></textarea>
   </div>
 
   <div class="columns">
     <div class="column">
         <div class="field">
-            <label class="label">Date</label>
-            <input bind:value={date} class="input" type="date" required />
+            <label class="label" for="event-date">Date</label>
+            <input id="event-date" bind:value={date} class="input" type="date" required />
         </div>
     </div>
     <div class="column">
         <div class="field">
-            <label class="label">Expected Attendees</label>
-            <input bind:value={attendees} class="input" type="number" min="0" />
+            <label class="label" for="event-attendees">Expected Attendees</label>
+            <input id="event-attendees" bind:value={attendees} class="input" type="number" min="0" />
         </div>
     </div>
   </div>

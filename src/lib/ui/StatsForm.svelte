@@ -23,7 +23,7 @@
       date: new Date(statsDate).toISOString()
     };
 
-    const success = await placemarkService.addMemberStats(clubId, statsData as unknown as MemberStats);
+    const success = await placemarkService.addMemberStats(clubId, statsData as MemberStats);
     
     if (success) {
       onStatsAdded();
@@ -45,14 +45,14 @@
     </div>
 
     <div class="columns">
-      <div class="column">
-        <label class="label" for="am">Adults (M)</label>
-        <input id="am" class="input" type="number" bind:value={adultMale} min="0" />
-      </div>
-      <div class="column">
-        <label class="label" for="af">Adults (F)</label>
-        <input id="af" class="input" type="number" bind:value={adultFemale} min="0" />
-      </div>
+        <div class="column">
+            <label class="label" for="am">Adults (M)</label>
+            <input id="am" class="input" type="number" bind:value={adultMale} min="0" />
+        </div>
+        <div class="column">
+            <label class="label" for="af">Adults (F)</label>
+            <input id="af" class="input" type="number" bind:value={adultFemale} min="0" />
+        </div>
     </div>
     <div class="columns">
         <div class="column">
